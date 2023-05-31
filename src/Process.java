@@ -1,11 +1,17 @@
 
 public class Process extends Thread{
 	
-	public Process () {
-		
+	private int id;
+	private int deltaT;
+	private int deltaTu;
+	
+	public Process (int id, int deltaT, int deltaTu) {
+		this.id = id;
+		this.deltaT = deltaT;
+		this.deltaTu = deltaTu;
 	}
 	
-	@Overrid
+	@Override
 	public void run() {};
 	
 	public void requireResource(){}
