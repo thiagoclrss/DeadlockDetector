@@ -4,6 +4,8 @@ public class OperationalSystem extends Thread {
 	
 	private int deltaTime;
 	private ArrayList<Resource> resources;
+	public static Semaphore fullResource, emptyResource;
+	
 	
 	public OperationalSystem(int deltaTime) {
 		this.deltaTime = deltaTime;

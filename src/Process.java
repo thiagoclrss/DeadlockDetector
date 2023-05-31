@@ -1,6 +1,19 @@
 
 public class Process extends Thread{
 	
+	public Process () {
+		
+	}
+	
+	@Overrid
+	public void run() {};
+	
+	public void requireResource(){}
+	
+	public void utiliza(){}
+	
+	public void freeResource(){}
+	
 }
 
 /*
