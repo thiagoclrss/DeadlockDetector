@@ -1,20 +1,25 @@
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 
 public class OperationalSystem extends Thread {
 	
 	private int deltaTime;
-	private ArrayList<Resource> resources;
+	private ArrayList<Resource> resourceList;
+	private ArrayList<Process> processList;
 	public static Semaphore fullResource, emptyResource;
 	
 	
 	public OperationalSystem(int deltaTime) {
 		this.deltaTime = deltaTime;
-		resources  = new ArrayList<>();
+		resourceList  = new ArrayList<>();
 	}
 		
 	@Override 
 	public void run() {
+		setResource();
 		timer();
+		
 	}
 	
 	public void detector() {
@@ -23,8 +28,47 @@ public class OperationalSystem extends Thread {
 	
 	public void timer(){
 		//contabilizo o deltaTime e chamo detector
-		detector();
+		while(true) {
+			detector();
+		}
 	}
+	
+	public void addProcess() {
+		Boolean userAnswer = true;
+		while(userAnswer) {
+			if(this.processList.size() == 10) break; //so podem haver 10 processos simultâneos
+			Scanner n = new Scanner(System.in);
+			System.out.println("Informe o id do processo: ");
+			int processId = n.nextInt();
+			System.out.println("Informe o intervalo de tempo de solicitação do recurso: ");
+			int deltaTime = n.nextInt();
+			System.out.println("Informe o tempo de utilização do recurso:");
+			int deltaTimeU = n.nextInt();
+			Process process = new Process(processId, deltaTime, deltaTimeU);
+			this.processList.add(process);
+			
+			//verificar se o usuário ainda quer add novo processo
+			System.out.println("Adicionar novo processo? (S/N)");
+			String verify = n.next();
+			if(verify != "S") userAnswer = false;
+			if(userAnswer == false) break;
+			
+		}
+		
+	}
+	
+	public void setResource() {
+		while(true) {
+			Scanner n = new Scanner(System.in);
+			System.out.println("Informe o nome do recurso: ");
+			String resourceName = n.next();
+			System.out.println("Informe o id do recurso: ");
+			int resourceId = n.nextInt();
+			Resource resource = new Resource(resourceName, resourceId);
+			this.resourceList.add(resource);
+		}
+	}
+
 }
 
 

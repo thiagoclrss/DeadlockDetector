@@ -1,10 +1,17 @@
+import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		Scanner n = new Scanner(System.in);
+		System.out.println("informe o intervalo de tempo de verificação: ");
+		int deltaTimeDeadLock = n.nextInt();
+		
+		OperationalSystem os = new OperationalSystem(deltaTimeDeadLock);
+		os.addProcess();
+		
 		
 	}
 }
-
 
 /*
 
