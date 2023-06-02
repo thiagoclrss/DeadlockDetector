@@ -7,7 +7,7 @@ public class OperationalSystem extends Thread {
 	private int deltaTime;
 	private ArrayList<Resource> resourceList;
 	private ArrayList<Process> processList;
-	public static Semaphore fullResource, emptyResource;
+	
 	
 	
 	public OperationalSystem(int deltaTime) {
@@ -29,7 +29,13 @@ public class OperationalSystem extends Thread {
 	public void timer(){
 		//contabilizo o deltaTime e chamo detector
 		while(true) {
-			detector();
+			try {
+				sleep(deltaTime * 1000);
+				detector();
+			} catch (InterruptedException e) {
+				// TODO: handle exception
+			}
+			
 		}
 	}
 	
@@ -58,14 +64,21 @@ public class OperationalSystem extends Thread {
 	}
 	
 	public void setResource() {
-		while(true) {
+		Boolean userAnswer = true;
+		while(userAnswer) {
 			Scanner n = new Scanner(System.in);
 			System.out.println("Informe o nome do recurso: ");
 			String resourceName = n.next();
 			System.out.println("Informe o id do recurso: ");
 			int resourceId = n.nextInt();
-			Resource resource = new Resource(resourceName, resourceId);
+			System.out.println("Informe a quantidade do recurso: ");
+			int qntResource = n.nextInt();
+			Resource resource = new Resource(resourceName, resourceId, qntResource);
 			this.resourceList.add(resource);
+			System.out.println("Adicionar novo recurso? (S/N)");
+			String verify = n.next();
+			if(verify != "S") userAnswer = false;
+			if(userAnswer == false) break;
 		}
 	}
 

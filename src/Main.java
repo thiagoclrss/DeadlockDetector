@@ -7,8 +7,8 @@ public class Main {
 		int deltaTimeDeadLock = n.nextInt();
 		
 		OperationalSystem os = new OperationalSystem(deltaTimeDeadLock);
-		os.addProcess();
-		
+		os.timer();
+		System.out.println("");
 		
 	}
 }

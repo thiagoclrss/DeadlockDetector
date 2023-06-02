@@ -14,9 +14,21 @@ public class Process extends Thread{
 	@Override
 	public void run() {};
 	
-	public void requireResource(){}
+	public void requireResource(){
+		try {
+			sleep(deltaT * 1000);
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+		}
+	}
 	
-	public void utiliza(){}
+	public void utiliza(){
+		try {
+			sleep(deltaTu*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void freeResource(){}
 	
