@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 public class OperationalSystem extends Thread {
 	
 	private int deltaTime;
-	private ArrayList<Resource> resourceList;
+	public static ArrayList<Resource> resourceList;
 	private ArrayList<Process> processList;
 	
 	
@@ -81,6 +81,16 @@ public class OperationalSystem extends Thread {
 			if(userAnswer == false) break;
 		}
 	}
+
+	public static ArrayList<Resource> getResourceList() {
+		return resourceList;
+	}
+
+	public void setResourceList(ArrayList<Resource> resourceList) {
+		this.resourceList = resourceList;
+	}
+	
+	
 
 }
 

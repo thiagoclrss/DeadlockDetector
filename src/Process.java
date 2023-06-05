@@ -1,25 +1,48 @@
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Process extends Thread{
 	
 	private int id;
 	private int deltaT;
 	private int deltaTu;
+	private ArrayList<Resource> resourceList = new ArrayList<>();//tirar isso dps, coloquei so pra testar
 	
 	public Process (int id, int deltaT, int deltaTu) {
 		this.id = id;
 		this.deltaT = deltaT;
 		this.deltaTu = deltaTu;
+		resourceList  = OperationalSystem.getResourceList(); //tirar isso dps, coloquei so pra testar
 	}
 	
 	@Override
-	public void run() {};
+	public void run() {
+		
+		while(true){
+			requireResource();
+			utiliza();
+			releaseResource();
+			
+		}
+		
+	};
 	
 	public void requireResource(){
 		try {
-			sleep(deltaT * 1000);
+			
+			
+			
+			resourceList.get(0).fullResource.acquire();
+			//OperationalSystem.getResourceList().get(0).emptyResource.acquire(); //nao sei pq n ta reconhecendo o metodo 
+			resourceList.get(0).mutex.acquire();
+			//sleep(deltaT * 1000);
 		} catch (InterruptedException e) {
-			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			resourceList.get(0).mutex.release();
+			resourceList.get(0).emptyResource.release();
 		}
+		
 	}
 	
 	public void utiliza(){
@@ -30,7 +53,39 @@ public class Process extends Thread{
 		}
 	}
 	
-	public void freeResource(){}
+	public void releaseResource(){
+		
+		try {
+			resourceList.get(0).emptyResource.acquire();
+			resourceList.get(0).mutex.acquire();
+			//sleep(deltaT * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			resourceList.get(0).mutex.release();
+			resourceList.get(0).fullResource.release();
+		}
+		
+	}
+	//tirar isso dps, coloquei so pra testar
+	public void setResource() {
+		Boolean userAnswer = true;
+		while(userAnswer) {
+			Scanner n = new Scanner(System.in);
+			System.out.println("Informe o nome do recurso: ");
+			String resourceName = n.next();
+			System.out.println("Informe o id do recurso: ");
+			int resourceId = n.nextInt();
+			System.out.println("Informe a quantidade do recurso: ");
+			int qntResource = n.nextInt();
+			Resource resource = new Resource(resourceName, resourceId, qntResource);
+			this.resourceList.add(resource);
+			System.out.println("Adicionar novo recurso? (S/N)");
+			String verify = n.next();
+			if(verify != "S") userAnswer = false;
+			if(userAnswer == false) break;
+		}
+	}
 	
 }
 
